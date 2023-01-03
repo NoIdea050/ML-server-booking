@@ -1,0 +1,65 @@
+.back-btn-container {
+    width: 112px;
+}
+
+.back-btn {
+    position: relative;
+    overflow: hidden;
+    transition: padding-left 0.5s ease;
+}
+
+.back-icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0%, -50%);
+    margin-left: -15px;
+    transition: .3s ease-in;
+}
+
+.back-btn:hover .back-icon {
+    margin-left: 17px;
+}
+
+.back-btn:hover {
+    padding-left: 30px;
+}
+
+.reload-btn:hover .reload-icon {
+    animation-name: rotate; 
+    animation-duration: 2s; 
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.custom-heading{
+    font-size: 30px;
+    line-height: 1.5em;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-align: center;
+    color: rgb(78,96,115);
+    text-transform: uppercase;
+}
+.under-line-wrapper{
+    /* background-color: rgb(78,96,115); */
+}
+.left-line{
+    height: 2px;
+    background-color: rgb(235, 193, 5);
+}
+.diamond {
+    width: 20px;
+    height: 10px;
+    background: rgb(78,96,115);
+    transform: rotate(45deg);
+}
+.right-line{
+    height: 2px;
+    background-color: rgb(250, 0, 187);
+}

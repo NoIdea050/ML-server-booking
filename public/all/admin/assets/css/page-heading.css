@@ -1,0 +1,96 @@
+/* === BASE HEADING === */ 
+.one h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.one h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+.one h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* === HEADING STYLE #1 === */
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #515365;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #515365;
+}
+
+.from-wrapper{
+  border: 5px solid #515365;
+  border-radius: 8px;
+  position: relative;
+  padding: 15px;
+}
+.from-wrapper h3{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  margin-top: -27px;
+  background-color: #515365;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-family: system-ui;
+  text-transform: uppercase;
+}
+.img-preview-wrapper{
+  border: 1px solid #515365;
+  margin-bottom: 3px;
+  background-image: url('http://bastianandre.at/giphy.gif');
+}
+.img-preview-wrapper, .img-preview-wrapper img{
+  width: 100%;
+  height: 300px;
+  background-image: url('http://bastianandre.at/giphy.gif');
+}
+#imgInp{
+  background: #515365;
+    color: white;
+    overflow: hidden;
+    width: 100%;
+    height: 38px;
+    padding: 5px 2px;
+    border-radius: 4px;
+}
+
+  
+
+  
