@@ -63,7 +63,6 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth:admin']], fu
     //-----------------------------System Settings START----------------------------
     Route::get('settings/system-info','Admin\SettingController@setting')->name('system.settings');
     Route::post('settings/system-info-update','Admin\SettingController@system_update')->name('system.settings.store');
-
     //-----------------------------System Settings END-----------------------------
 
      //-----------------------------User MANAGEMENT START----------------------------

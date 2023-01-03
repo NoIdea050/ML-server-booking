@@ -120,7 +120,7 @@ class UserController extends Controller
         if ($row->status == 1) {
             $body = 'Your request has been accepted. You can login with username and password.';
         } else {
-            $body = 'Your account has been inactivated. Contact with the administrator.';
+            $body = 'Your account has been deactivated. Contact with the administrator.';
         }
         
         $email_data = [

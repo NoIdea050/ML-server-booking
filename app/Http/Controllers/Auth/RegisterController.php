@@ -69,10 +69,6 @@ class RegisterController extends Controller
 
         return redirect()->route('login')
                         ->with('success', 'Wait For Admin Acceptance.');
-        // return $this->registered($request, $user)
-        //                 ? 'here1' : 'here2';
-        // return $this->registered($request, $user)
-        //                 ? : redirect($this->redirectPath());
     }
 
     /**

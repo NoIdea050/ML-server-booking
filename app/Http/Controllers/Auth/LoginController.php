@@ -28,7 +28,6 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectTo;
     protected function redirectTo()
     {
@@ -64,7 +63,6 @@ class LoginController extends Controller
     {   
         $input = $request->all();
 
-        // return $input;
   
         $this->validate($request, [
             'username' => 'required',

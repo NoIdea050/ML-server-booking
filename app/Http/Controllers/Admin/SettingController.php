@@ -21,6 +21,7 @@ class SettingController extends Controller
 
     public function system_update(Request $request)
     {
+        // Validating
         $this->validate($request,[
             'project_name' => 'required',
             'email' => 'required',
