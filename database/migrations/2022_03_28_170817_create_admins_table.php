@@ -20,7 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->string('role_id')->nullable(); //1=super-admin; 2=admin; 3=modarator; 4=member;
+            $table->string('role_id')->nullable(); 
             $table->string('employee_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

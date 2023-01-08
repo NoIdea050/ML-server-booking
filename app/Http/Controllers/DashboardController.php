@@ -193,7 +193,7 @@ class DashboardController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->ignore(Auth::user()->id),
             ],
-            'phone' => ['required', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
         ]);
 
         $user = User::find(Auth::user()->id);
@@ -202,8 +202,6 @@ class DashboardController extends Controller
         $user->save();
         $avatar = $request->old_img;
         if (request()->hasFile('avatar')) {
-            //old image delete after updating
-            // File::delete(public_path('storage/' . $request->old_img));
             if(File::exists('storage/'.$request->old_img)) {
                 if($request->old_img){
                     unlink('storage/'.$request->old_img);

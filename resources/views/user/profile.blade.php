@@ -52,7 +52,6 @@
                                                 <input type="file" accept="image/*" name="avatar" id="imgInp1"
                                                     class="slider-update-input" value="{{ old('avatar') }}"
                                                     onchange="loadFile(event)" style="width : 100%;color:black">
-                                                <!-- <input type="hidden" name="old_image" value=""> -->
                                             </div>
                                             <img class="preview" id="preview1"
                                                 src="{{ !empty($data->user_more_info) ? asset('storage/'.$data->user_more_info->avatar) : asset('all/website/assets/images/profile_demo.png') }}"

@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'project_name' => 'ML Server Booking System',
             'address' => 'UK',
             'phone' => '01XXXXXXXXX',
-            'email' => 'mlbooking@gmail.com',
+            'email' => 'mlbooking.system@gmail.com',
             'monthly_credit' => 100
         ]);
     }

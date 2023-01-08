@@ -518,7 +518,7 @@
                                                 @if ($email_data['booking_data']->status == 0)
                                                 We'll let you know when you're booking has been confirmed.
                                                 @elseif ($email_data['booking_data']->status == 1)
-                                                Your booking has been confirmed for resource {{ $email_data['booking_data']->type }} from {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->start_date_and_time)) }} to {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->end_date_and_time)) }} . Total credits {{ $email_data['booking_data']->credit_cost }} needed for your booking was credits {{ $email_data['booking_data']->credit_cost + $email_data['credit_data']->total_credit_left }}.
+                                                Your booking has been confirmed for resource {{ $email_data['booking_data']->type }} from {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->start_date_and_time)) }} to {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->end_date_and_time)) }} . Total credits needed for your booking: {{ $email_data['booking_data']->credit_cost }}. Remaining credits: {{$email_data['credit_data']->total_credit_left }}.
                                                 @elseif ($email_data['booking_data']->status == 2)
                                                     Your booking request has been rejected.
                                                 @else
