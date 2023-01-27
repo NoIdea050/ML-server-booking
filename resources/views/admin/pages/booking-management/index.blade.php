@@ -13,6 +13,7 @@
 <link href="{{ asset('all/admin/plugins/animate/animate.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('all/admin/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
 <!-- END PAGE LEVEL PLUGINS -->
+
 @endsection
 
 @section('contents')
@@ -127,7 +128,7 @@
                                                                         <input type="text" class="form-control"
                                                                             id="credit" name="credit_left"
                                                                             value="{{old('credit_left')}}"
-                                                                            placeholder="Enter Credit Left">
+                                                                            placeholder="Enter Credits Needed">
                                                                     </div>
                                                                 </div>
                                                             </div>

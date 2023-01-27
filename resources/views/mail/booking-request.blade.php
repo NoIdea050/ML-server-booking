@@ -504,9 +504,9 @@
                                                         @if ($email_data['booking_data']->status == 0)
                                                             Pending
                                                         @elseif ($email_data['booking_data']->status == 1)
-                                                            Confirm
+                                                            Confirmed
                                                         @elseif ($email_data['booking_data']->status == 2)
-                                                            Reject
+                                                            Rejected
                                                         @else
                                                             Cancel by user
                                                         @endif
@@ -516,9 +516,9 @@
                                             <hr>
                                             <p style="font-size: 14px; line-height: 14px; color: #51545E; margin: .4em 0 1.1875em; padding-bottom:10px;">
                                                 @if ($email_data['booking_data']->status == 0)
-                                                We'll let you know when you're booking has been confirmed.
+                                                    We'll let you know when you're booking has been confirmed.
                                                 @elseif ($email_data['booking_data']->status == 1)
-                                                Your booking has been confirmed for resource {{ $email_data['booking_data']->type }} from {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->start_date_and_time)) }} to {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->end_date_and_time)) }} . Total credits needed for your booking: {{ $email_data['booking_data']->credit_cost }}. Remaining credits: {{$email_data['credit_data']->total_credit_left }}.
+                                                    Your booking has been confirmed for resource {{ $email_data['booking_data']->type }} from {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->start_date_and_time)) }} to {{ date('d-m-Y h:i a', strtotime($email_data['booking_data']->end_date_and_time)) }} . Total credits needed for your booking: {{ $email_data['booking_data']->credit_cost }}. Remaining credits: {{$email_data['credit_data']->total_credit_left }}.
                                                 @elseif ($email_data['booking_data']->status == 2)
                                                     Your booking request has been rejected.
                                                 @else
@@ -529,7 +529,7 @@
                                                
                                             </p>
                                             <p style="font-size: 14px; line-height: 14px; color: #51545E; margin: .4em 0 1.1875em; padding-bottom:10px;">
-                                                <b>Thanks for patience .</b>
+                                                <b>Thanks for your patience .</b>
                                             </p>
 
                                         </div>

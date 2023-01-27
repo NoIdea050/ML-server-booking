@@ -120,7 +120,7 @@ class DashboardController extends Controller
 
             return redirect()
                 ->back()
-                ->with('success', 'Booked Successfully');
+                ->with('success', 'Booking requested successfully');
         } else {
             return redirect()
                 ->back()

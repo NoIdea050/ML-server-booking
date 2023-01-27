@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100">
-                        <a href="{{route('register')}}" class="font-medium text-indigo-500">Create account? Sign Up</a>
+                        <a href="{{route('register')}}" class="font-medium text-indigo-500">Create account? Register</a>
 
                         @if (Route::has('password.request'))
                         <span><a class="btn btn-link" href="{{ route('password.request') }}">
@@ -80,7 +80,6 @@
             </div>
         </div>
     </body>
-    <!-- partial -->
 
 </body>
 

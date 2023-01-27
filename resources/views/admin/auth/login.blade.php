@@ -15,9 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('all/admin/assets/css/forms/theme-checkbox-radio.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('all/admin/assets/css/forms/switches.css')}}">
 
-    <!-- Favicon -->
-    <link href="{{ asset('website/img/logo/favicon.png') }}" rel="icon" />
-    <link href="{{ asset('website/img/logo/favicon.png') }}" rel="apple-touch-icon" />
 </head>
 <body class="form">
     <div class="form-container outer">
