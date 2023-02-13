@@ -16,6 +16,7 @@ use File;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingMail;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
@@ -25,7 +26,13 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $this->credit_deposit();
-        return view('user.dashboard');
+        $datas = [
+            'CPU' => Setting::first()->cpu_cost_per_hour,
+            'GPU' => Setting::first()->gpu_cost_per_hour 
+        ];
+        return view('user.dashboard',[
+            'datas' => $datas,
+        ]);
     }
 
     public function credit_deposit()
@@ -78,53 +85,96 @@ class DashboardController extends Controller
             'type' => 'required',
             'note' => 'nullable',
         ]);
+
+        try{
+            DB::beginTransaction(); //transaction start
         
-        // First we get the start and end dates and convert them to the format we need for the query
-        $start_date_and_time = date("Y-m-d H:i:s", strtotime($request->start_date_and_time));
-        $end_date_and_time = date("Y-m-d H:i:s", strtotime($request->end_date_and_time));
-        // Then we build a subquery to check if the start or end dates are between the start and end dates of an existing booking
-        $check_data = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'type')
-                        ->where(function($query) use ($start_date_and_time, $end_date_and_time) {
-                            $query->where(function($query1) use ($start_date_and_time) {
-                                        $query1->where('start_date_and_time', '<=', $start_date_and_time)
-                                            ->where('end_date_and_time', '>=', $start_date_and_time);
-                                    })
-                                    ->orWhere(function($query2) use ($end_date_and_time) {
-                                        $query2->where('start_date_and_time', '<=', $end_date_and_time)
-                                            ->where('end_date_and_time', '>=', $end_date_and_time);
-                                    });
-                        })->where('status', 1)->where('type', $request->type)->first();
+            // First we get the start and end dates and convert them to the format we need for the query
+            $start_date_and_time = date("Y-m-d H:i:s", strtotime($request->start_date_and_time));
+            $end_date_and_time = date("Y-m-d H:i:s", strtotime($request->end_date_and_time));
 
-        if ($check_data) {
-            // check if slot not empty in your booking range
-            return redirect()->back()->withInput($request->all())->with('error', 'Slot not empty in your booking range.');
-        }
-        
-        $data = new Booking; // A new booking object
-        $data->user_id = Auth::user()->id; // Get the current user's ID and add it to the booking object
-        $data->start_date_and_time = $request->start_date_and_time; // Get the start date from the form and add it to the booking object
-        $data->end_date_and_time = $request->end_date_and_time; // Get the end date from the form and add it to the booking object
-        $data->type = $request->type; // Get the type from the form and add it to the booking object
-        $data->note = $request->note; // Get the note from the form and add it to the booking object
-        $data->save(); // Save the booking object to the database
-        if ($data) {
+            $start_timestamp = strtotime($start_date_and_time);
+            $end_timestamp = strtotime($end_date_and_time);
+            $difference = $end_timestamp - $start_timestamp;
+            $difference_in_minutes = floor($difference / 60);
+            if($difference_in_minutes < 60){
+                return redirect()->back()->withInput($request->all())->with('error', 'You have to book for minimum one hour');
+            }
 
-            $email_data = [
-                'name' => Auth::user()->name, // The name of the current user
-                'booking_data' => $data, // The data of the booking request
-                'credit_data' => Credit::where('user_id', Auth::user()->id)->first(), // The data of the credits of the current user
-                'title' => 'Request For Booking', // The title of the email
-                'subject' => 'Booking Request', // The subject of the email
-            ];
-            Mail::to(Auth::user()->email)->send(new BookingMail($email_data));
+            // Get user credit
+            $user_credit = Credit::Where('user_id',Auth::user()->id)->first();
+            if($request->type == 'CPU'){
+                $cost = Setting::first()->cpu_cost_per_hour;
+            }else{
+                $cost = Setting::first()->cpu_cost_per_hour;
+            }
+            $cost_will_be = number_format((($cost/60)*$difference_in_minutes), 2);
+            // Check if user has enough credit to return
+            if ($user_credit->total_credit_left < $cost_will_be) {
+                return redirect()->back()->withInput($request->all())->with('error', 'Not enough credit is available');
+            }
 
+            // Then we build a subquery to check if the start or end dates are between the start and end dates of an existing booking
+            $check_data = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'type')
+                            ->where(function($query) use ($start_date_and_time, $end_date_and_time) {
+                                $query->where(function($query1) use ($start_date_and_time) {
+                                            $query1->where('start_date_and_time', '<=', $start_date_and_time)
+                                                ->where('end_date_and_time', '>=', $start_date_and_time);
+                                        })
+                                        ->orWhere(function($query2) use ($end_date_and_time) {
+                                            $query2->where('start_date_and_time', '<=', $end_date_and_time)
+                                                ->where('end_date_and_time', '>=', $end_date_and_time);
+                                        });
+                            })->where('status', 1)->where('type', $request->type)->first();
+
+            if ($check_data) {
+                // check if slot not empty in your booking range
+                return redirect()->back()->withInput($request->all())->with('error', 'Slot not empty in your booking range.');
+            }
+            
+            $data = new Booking; // A new booking object
+            $data->user_id = Auth::user()->id; // Get the current user's ID and add it to the booking object
+            $data->start_date_and_time = $request->start_date_and_time; // Get the start date from the form and add it to the booking object
+            $data->end_date_and_time = $request->end_date_and_time; // Get the end date from the form and add it to the booking object
+            $data->type = $request->type; // Get the type from the form and add it to the booking object
+            $data->note = $request->note; // Get the note from the form and add it to the booking object
+            $data->credit_cost = $cost_will_be; // Get the credit_cost from the form and add it to the booking object
+            
+            // Set the status of the request to 1 (approved)
+            $data->status = 1;
+            // Set the credit of the user to the current credit
+            $data->credit = $user_credit->total_credit_left;
+
+            $data->save(); // Save the booking object to the database
+
+            $user_credit->total_credit_left = $user_credit->total_credit_left - $cost_will_be;
+            $user_credit->save();
+
+            DB::commit(); //transaction end
+
+            if ($data) {
+
+                $email_data = [
+                    'name' => Auth::user()->name, // The name of the current user
+                    'booking_data' => $data, // The data of the booking request
+                    'credit_data' => Credit::where('user_id', Auth::user()->id)->first(), // The data of the credits of the current user
+                    'title' => 'Booking Request Accepted', // The title of the email
+                    'subject' => 'Booking Acceptance', // The subject of the email
+                ];
+                Mail::to(Auth::user()->email)->send(new BookingMail($email_data));
+
+                return redirect()
+                    ->back()
+                    ->with('success', 'Booked successfully');
+            } else {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Something Went Wrong, Try Again.');
+            }   
+        }catch(Exception $e){
             return redirect()
-                ->back()
-                ->with('success', 'Booking requested successfully');
-        } else {
-            return redirect()
-                ->back()
-                ->with('error', 'Something Went Wrong, Try Again.');
+                    ->back()
+                    ->with('error', 'Something Went Wrong, Try Again.');
         }
     }
 

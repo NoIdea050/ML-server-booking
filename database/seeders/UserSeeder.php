@@ -43,9 +43,11 @@ class UserSeeder extends Seeder
         DB::table('settings')->insert([
             'project_name' => 'ML Server Booking System',
             'address' => 'UK',
-            'phone' => '01XXXXXXXXX',
+            'phone' => '07XXXXXXXXX',
             'email' => 'mlbooking.system@gmail.com',
-            'monthly_credit' => 100
+            'monthly_credit' => 100,
+            'cpu_cost_per_hour' => 1,
+            'gpu_cost_per_hour' => 1.5
         ]);
     }
 }

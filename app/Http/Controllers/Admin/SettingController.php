@@ -27,7 +27,9 @@ class SettingController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',
-            'monthly_credit' => 'required'
+            'monthly_credit' => 'required',
+            'cpu_cost_per_hour' => 'required',
+            'gpu_cost_per_hour' => 'required'
         ]);
 
         DB::beginTransaction(); //transaction start
@@ -37,6 +39,8 @@ class SettingController extends Controller
         $info->phone = $request->phone;
         $info->address = $request->address;
         $info->monthly_credit = $request->monthly_credit;
+        $info->cpu_cost_per_hour = $request->cpu_cost_per_hour;
+        $info->gpu_cost_per_hour = $request->gpu_cost_per_hour;
         $info->save();
         DB::commit(); //transaction end
 

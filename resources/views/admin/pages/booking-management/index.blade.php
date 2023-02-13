@@ -52,7 +52,6 @@
                                             <th>User Info</th>
                                             <th>Booking Info</th>
                                             <th class="text-center">Status</th>
-                                            <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,104 +80,7 @@
                                                     echo 'Rejected';
                                                 } ?>
                                             </td>
-                                            <td class="text-right">
-                                                @if($row->status == 0)
-                                                <button class="btn btn-success  m-0 p-0 px-1" data-toggle="modal"
-                                                    data-target="#accept-modal-{{ $row->id }}">A</button>
-                                                <button class="btn btn-danger  m-0 p-0 px-1" data-toggle="modal"
-                                                    data-target="#reject-modal-{{ $row->id }}">R</button>
-                                                @endif
-                                            </td>
                                         </tr>
-
-                                        <div id="accept-modal-{{ $row->id }}"
-                                            class="modal animated zoomInUp custo-zoomInUp" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-x">
-                                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                            </svg>
-                                                        </button>
-                                                        <div
-                                                            class="d-flex flex-column justify-content-between align-items-center">
-                                                            <i class="fa fa-question-circle text-warning"
-                                                                style="font-size: 70px"></i>
-                                                            <h4 class="modal-title">Are you sure?</h4>
-                                                        </div>
-                                                        <p class="modal-text text-center mt-3">Do you really want to
-                                                            accept booking
-                                                            of the record?</p>
-                                                        <form method="POST"
-                                                            action="{{ route($url_group.'.booking-apporved',$row->id) }}">
-                                                            @csrf
-                                                            <div class="row">
-                                                                <div class="col-12 col-lg-12 col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label for="qty" class="p-0">Credit Left<span
-                                                                                class="text-danger">*</span></label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="credit" name="credit_left"
-                                                                            value="{{old('credit_left')}}"
-                                                                            placeholder="Enter Credits Needed">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <center><button type="submit"
-                                                                    class="btn btn-primary">Submit</button></center>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="reject-modal-{{ $row->id }}"
-                                            class="modal animated zoomInUp custo-zoomInUp" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-x">
-                                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                            </svg>
-                                                        </button>
-                                                        <div
-                                                            class="d-flex flex-column justify-content-between align-items-center">
-                                                            <i class="fa fa-question-circle text-warning"
-                                                                style="font-size: 70px"></i>
-                                                            <h4 class="modal-title">Change Status</h4>
-                                                        </div>
-                                                        <p class="modal-text text-center mt-3">Do you want to
-                                                            change status?</p>
-                                                        <div class="mt-3 d-flex justify-content-center">
-                                                            <button title="Keep Stable" class="btn btn-light mr-2"
-                                                                data-dismiss="modal">
-                                                                <i class="fa fa-times"></i> No
-                                                            </button>
-
-                                                            <a title="Make Inactive" class="btn btn-danger ml-2"
-                                                                href="{{ route($url_group.'.booking-rejected',$row->id) }}">
-                                                                <i class="fa fa-check"></i> Yes
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>

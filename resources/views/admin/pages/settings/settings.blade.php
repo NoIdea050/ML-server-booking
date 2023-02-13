@@ -120,6 +120,37 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon5">CPU Cost(Hourly)</span>
+                                                    </div>
+                                                    <input type="text"
+                                                        class="form-control {{($errors->first('cpu_cost_per_hour') ? "border border-danger" : "")}}"
+                                                        name="cpu_cost_per_hour"
+                                                        value="{{ old('cpu_cost_per_hour') ? old('cpu_cost_per_hour') : $row->cpu_cost_per_hour }}"
+                                                        placeholder="Enter cpu cost per hour">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon5">GPU Cost(Hourly)</span>
+                                                    </div>
+                                                    <input type="text"
+                                                        class="form-control {{($errors->first('gpu_cost_per_hour') ? "border border-danger" : "")}}"
+                                                        name="gpu_cost_per_hour"
+                                                        value="{{ old('gpu_cost_per_hour') ? old('gpu_cost_per_hour') : $row->gpu_cost_per_hour }}"
+                                                        placeholder="Enter gpu cost per hour">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="text-right">

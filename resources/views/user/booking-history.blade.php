@@ -17,7 +17,7 @@
             <thead>
                 <tr class="text-center">
                     <th scope="col">#</th>
-                    <th scope="col">Total Credit Gain</th>
+                    <th scope="col">Total Credits</th>
                     <th scope="col">Total Credit Left</th>
                     <th scope="col">Last Credit Added</th>
                 </tr>
@@ -46,7 +46,7 @@
                     <th scope="col">Start Date & Time</th>
                     <th scope="col">End Date & Time</th>
                     <th scope="col">Type</th>
-                    <th scope="col">Credit Used</th>
+                    <th scope="col">Credits Used</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -130,7 +130,7 @@
 @section('footer-links')
 <script>
 $(document).ready(function() {
-    //date pecking in checking seats
+    //date picking 
     $(".booking_start_date").change(function() {
         var booking_start_date = $(this).val();
         $('.booking_end_date').val('');
