@@ -7,7 +7,7 @@
 @section('contents')
 
 <div class="container d-flex justify-content-end">
-    <a href="#" class="btn btn-primary">Buy Credit</a>
+    <a href="#" class="btn btn-primary">Request Credits</a>
 </div>
 <div class="container my-3 d-flex justify-content-end">
     <div class="col-sm-12 col-md-12 col-lg-12">
