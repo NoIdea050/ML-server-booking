@@ -15,6 +15,10 @@
                     <a class="nav-link text-dark text-white" href="{{ route('user.booking-history')}}">Booking History</a>
 
                 </li>
+                {{-- <li class="nav-item">
+                    <a class="nav-link text-dark text-white" href="{{ route('user.BookingJson') }}">View Bookings JSON</a>
+                </li> --}}
+
 
             </ul>
 

@@ -37,6 +37,9 @@ Route::group(['as'=>'user.','prefix'=>'user','middleware'=>['auth','user']], fun
     Route::post('/booking-check','DashboardController@booking_check')->name('booking-check');
 
     Route::get('/booking-history','DashboardController@booking_history')->name('booking-history');
+
+    Route::get('/BookingJson','DashboardController@bookingsJson')->name('BookingJson');
+
     Route::get('/profile','DashboardController@profile')->name('profile');
     Route::put('/profile', 'DashboardController@profile_update')->name(
         'profile-update'
@@ -83,5 +86,6 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth:admin']], fu
       Route::resource('/profile', 'Admin\ProfileController');
       Route::put('change-password/{id}', 'Admin\ProfileController@passupdate')->name('change.password');
       //--------------Admin profile end-----------
+
 
 });

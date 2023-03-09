@@ -323,4 +323,24 @@ class DashboardController extends Controller
                 ->with('error', 'Something went wrong, try again.');
         }
     }
+    
+    public function bookingsJson()
+    {
+        $bookings = Booking::with('user')->select('user_id', 'type', DB::raw('count(*) as total'))->groupBy('user_id', 'type')->get();
+    
+        $data = [];
+    
+        foreach ($bookings as $booking) {
+            $user = $booking->user;
+            $data[] = [
+                'user_id' => $user->id,
+                'username' => $user->name,
+                'type' => $booking->type,
+                'total' => $booking->total,
+            ];
+        }
+
+        return response()->json($data);
+        
+    }
 }
