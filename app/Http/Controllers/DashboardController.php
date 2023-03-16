@@ -338,7 +338,7 @@ class DashboardController extends Controller
                 'type' => $booking->type,
                 'total' => $booking->total,
             ];
-        }
+        } 
 
         return response()->json($data);
         
