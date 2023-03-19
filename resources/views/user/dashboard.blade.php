@@ -75,7 +75,7 @@
                                 <div class="col-12">
                                     <label for="exampleFormControlTextarea1" class="form-label">Booking Cost</label>
                                     <input class="form-control booking_cost" name="credit_cost"
-                                        placeholder="Pick up stat & end date time first." readonly>
+                                        placeholder="Select start & end date time first." readonly>
                                 </div>
                                 <div class="col-12">
                                     <label for="exampleFormControlTextarea1" class="form-label">Notes</label>
