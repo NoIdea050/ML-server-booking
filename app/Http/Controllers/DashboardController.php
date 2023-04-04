@@ -8,6 +8,8 @@ use App\Models\UserMoreInfo;
 use App\Models\Credit;
 use App\Models\Booking;
 use App\Models\Setting;
+use App\Models\CreditHistory;
+use App\Models\Storage;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -16,6 +18,7 @@ use File;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingMail;
+use App\Mail\CreditMail;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -25,13 +28,14 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $this->credit_deposit();
-        $datas = [
-            'CPU' => Setting::first()->cpu_cost_per_hour,
-            'GPU' => Setting::first()->gpu_cost_per_hour 
-        ];
+        // $this->credit_deposit(); //monthly auto credit deposite(currently: stop)
+        // $datas = [
+        //     'CPU' => Setting::first()->cpu_cost_per_hour,
+        //     'GPU' => Setting::first()->gpu_cost_per_hour 
+        // ];
+        $storages = Storage::where('status', 1)->orderBy('type')->get();
         return view('user.dashboard',[
-            'datas' => $datas,
+            'storages' => $storages,
         ]);
     }
 
@@ -82,7 +86,7 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'start_date_and_time'=> 'required',
             'end_date_and_time' => 'required',
-            'type' => 'required',
+            'storage' => 'required',
             'note' => 'nullable',
         ]);
 
@@ -102,20 +106,23 @@ class DashboardController extends Controller
             }
 
             // Get user credit
+
             $user_credit = Credit::Where('user_id',Auth::user()->id)->first();
-            if($request->type == 'CPU'){
-                $cost = Setting::first()->cpu_cost_per_hour;
-            }else{
-                $cost = Setting::first()->cpu_cost_per_hour;
-            }
+            $storages = Storage::find($request->storage);
+            // if($request->type == 'CPU'){
+            //     $cost = Setting::first()->cpu_cost_per_hour;
+            // }else{
+            //     $cost = Setting::first()->cpu_cost_per_hour;
+            // }
+            $cost = $storages->cost_per_hour;
             $cost_will_be = number_format((($cost/60)*$difference_in_minutes), 2);
             // Check if user has enough credit to return
             if ($user_credit->total_credit_left < $cost_will_be) {
-                return redirect()->back()->withInput($request->all())->with('error', 'Not enough credit is available');
+                return redirect()->back()->withInput($request->all())->with('error', 'Not enough credit is available!');
             }
 
             // Then we build a subquery to check if the start or end dates are between the start and end dates of an existing booking
-            $check_data = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'type')
+            $check_data = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'storage_id')
                             ->where(function($query) use ($start_date_and_time, $end_date_and_time) {
                                 $query->where(function($query1) use ($start_date_and_time) {
                                             $query1->where('start_date_and_time', '<=', $start_date_and_time)
@@ -125,7 +132,7 @@ class DashboardController extends Controller
                                             $query2->where('start_date_and_time', '<=', $end_date_and_time)
                                                 ->where('end_date_and_time', '>=', $end_date_and_time);
                                         });
-                            })->where('status', 1)->where('type', $request->type)->first();
+                            })->where('status', 1)->where('storage_id', $request->storage)->first();
 
             if ($check_data) {
                 // check if slot not empty in your booking range
@@ -136,7 +143,7 @@ class DashboardController extends Controller
             $data->user_id = Auth::user()->id; // Get the current user's ID and add it to the booking object
             $data->start_date_and_time = $request->start_date_and_time; // Get the start date from the form and add it to the booking object
             $data->end_date_and_time = $request->end_date_and_time; // Get the end date from the form and add it to the booking object
-            $data->type = $request->type; // Get the type from the form and add it to the booking object
+            $data->storage_id = $request->storage; // Get the storage_id from the form and add it to the booking object
             $data->note = $request->note; // Get the note from the form and add it to the booking object
             $data->credit_cost = $cost_will_be; // Get the credit_cost from the form and add it to the booking object
             
@@ -196,28 +203,23 @@ class DashboardController extends Controller
     public function booking_history(){
         return view('user.booking-history', [
             'datas' => Booking::where('user_id', Auth::user()->id)->latest()->get(), // get all booking with current logged in user
-            'credits' => Credit::where('user_id',Auth::user()->id)->latest()->get()]); // get all credits with current logged in user
+            'credits' => Credit::where('user_id',Auth::user()->id)->latest()->get(), // get all credits with current logged in user
+            'credit_histories' => CreditHistory::where('user_id',Auth::user()->id)->latest()->get() // get all credits history with current logged in user
+        ]);
     }
     
     public function booking_check(Request $request)
     {
         $picking_date = $request->picking_date;
 
-        //Get all CPU bookings for the date
-        $cpu_datas = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'type')
+        // return $picking_date;
+        //Get all bookings for the date
+        $booking_datas = Booking::select('id', 'start_date_and_time', 'end_date_and_time', 'status', 'storage_id')
                             ->whereDate('start_date_and_time', '<=', $picking_date)
                             ->WhereDate('end_date_and_time', '>=', $picking_date)
-                            ->where('status', 1)->where('type', 'CPU')->get();
-        //Get all GPU bookings for the date
-        $gpu_datas = Booking::select('start_date_and_time', 'end_date_and_time', 'status', 'type')
-                            ->whereDate('start_date_and_time', '<=', $picking_date)
-                            ->WhereDate('end_date_and_time', '>=', $picking_date)
-                            ->where('status', 1)->where('type', 'GPU')->get();
+                            ->where('status', 1)->orderBy('storage_id')->orderBy('start_date_and_time', 'ASC')->get();
 
-        return $return_data = [
-            'cpu_datas' => $cpu_datas,
-            'gpu_datas' => $gpu_datas,
-        ];
+        return count($booking_datas) > 0 ? $booking_datas : 'No Data Found';
     }
 
     public function profile(){
@@ -323,24 +325,73 @@ class DashboardController extends Controller
                 ->with('error', 'Something went wrong, try again.');
         }
     }
-    
-    public function bookingsJson()
-    {
-        $bookings = Booking::with('user')->select('user_id', 'type', DB::raw('count(*) as total'))->groupBy('user_id', 'type')->get();
-    
-        $data = [];
-    
-        foreach ($bookings as $booking) {
-            $user = $booking->user;
-            $data[] = [
-                'user_id' => $user->id,
-                'username' => $user->name,
-                'type' => $booking->type,
-                'total' => $booking->total,
-            ];
-        } 
 
-        return response()->json($data);
-        
+
+    public function request_for_credit(Request $request)
+    {
+        $request->validate([
+            'credit' => 'required|numeric|min:0|not_in:0',
+            'message' => 'nullable|max:300',
+        ]);
+
+        DB::beginTransaction(); //transaction start
+
+        $credit_history = New CreditHistory;
+        $credit_history->user_id = Auth::user()->id;
+        $credit_history->credit = $request->credit;
+        $credit_history->requested_date_and_time = date('Y-m-d H:i:s');
+        $credit_history->message = $request->message;
+        $credit_history->status = 0;
+        $credit_history->save();
+
+        DB::commit(); //transaction end
+
+        if ($credit_history) {
+
+            // CreditMail
+            // Array of data to be used in the email view
+            $email_data = [
+                'subject' => 'Credit Request',
+                'title' => 'Request For Extra Credit',
+                'credit_update' => 0,
+                'message_to_user' => "We'll let you know when your credit has been deposit or reject.",
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+                'credit_data' => Credit::where('user_id', Auth::user()->id)->first(),
+                'credit_history' => $credit_history,
+                'thanks_msg' => 'Thanks for your patience .',
+                
+            ];
+            // Send the email to the admin
+            Mail::to(Auth::user()->email)->send(new CreditMail($email_data));
+            
+            return redirect()
+                    ->back()
+                    ->with('success', 'Request for credit successfully done.');
+        } else {
+            return redirect()
+                ->back()
+                ->with('error', 'Something Went Wrong, Try Again.');
+        }
+    }
+
+    public function request_for_credit_delete($id)
+    {
+
+        DB::beginTransaction(); //transaction start
+
+        $credit_history = CreditHistory::find($id);
+
+        if ($credit_history->status == 0 || $credit_history->status == 2) {
+            $credit_history->delete();
+
+            DB::commit(); //transaction end
+            return redirect()
+                    ->back()
+                    ->with('success', 'Request for credit deleted successfully.');
+        }
+        return redirect()
+                ->back()
+                ->with('error', 'You can not deleted the request.');
     }
 }

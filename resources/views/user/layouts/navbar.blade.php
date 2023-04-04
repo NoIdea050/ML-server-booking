@@ -15,10 +15,6 @@
                     <a class="nav-link text-dark text-white" href="{{ route('user.booking-history')}}">Booking History</a>
 
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link text-dark text-white" href="{{ route('user.BookingJson') }}">View Bookings JSON</a>
-                </li> --}}
-
 
             </ul>
 
@@ -32,6 +28,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                         <li><a class="dropdown-item" href="{{ route('user.profile')}}">My Profile</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Logout</a></li> -->
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">

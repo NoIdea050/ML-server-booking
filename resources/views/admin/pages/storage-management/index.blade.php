@@ -34,12 +34,12 @@
                             <div class="row page-title-wrapper">
                                 <div class="col-sm-12 col-md-2"></div>
                                 <div class="col-10 col-sm-10 col-md-8 title-wrapper">
-                                    <h3 class="text-center title">User List</h3>
+                                    <h3 class="text-center title">Storage List</h3>
                                 </div>
                                 <div class="col-1 col-sm-1 col-md-1 refresh-btn-wrapper">
-                                    <a href="{{ route($url_group.'.user.index') }}"
-                                        class="btn btn-warning refresh-btn" title="Refresh">
-                                        <i class="fa fa-refresh refresh-icon" style="font-size:16px;"></i></a>
+                                    <a href="{{ route($url_group.'.storage.create') }}"
+                                        class="btn btn-primary refresh-btn" title="Refresh">
+                                        <i class="fa fa-plus refresh-icon" style="font-size:16px;"></i></a>
                                 </div>
                             </div>
                             <hr>
@@ -48,8 +48,9 @@
                                     <thead>
                                         <tr>
                                             <th>SL.</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
+                                            <th>Title</th>
+                                            <th>Type</th>
+                                            <th>Cost(Per Hour)</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-right">Action</th>
                                         </tr>
@@ -60,10 +61,10 @@
 
                                         <tr>
                                             <td class="checkbox-column"> {{$i++}} </td>
-                                            <td>{{$row->name}}</td>
-                                            <td>{{$row->email}}</td>
-                                            <td class="text-center"><span
-                                                    class="shadow-none badge badge-primary"></span>
+                                            <td>{{$row->title}}</td>
+                                            <td>{{$row->type}}</td>
+                                            <td>{{$row->cost_per_hour}} Credit(s)</td>
+                                            <td class="text-center">
                                                 <?php if ($row->status == 1) {
                                                     echo 'Active';
                                                 } else {
@@ -71,6 +72,13 @@
                                                 } ?>
                                             </td>
                                             <td class="text-right">
+                                                <a href="{{ route($url_group.'.storage.edit', $row->id) }}"
+                                                    class="btn m-0 p-0 px-1 btn-warning"
+                                                    title="Edit Data">
+                                                    <i class="fa fa-edit }}"
+                                                        style="font-size:10px;"></i>
+                                                </a>
+
                                                 <button type="button"
                                                     class="btn m-0 p-0 px-1 btn-{{ $row->status == 1 ? 'success' : 'danger' }}"
                                                     data-toggle="modal" data-target="#status-modal-{{ $row->id }}"
@@ -78,14 +86,6 @@
                                                     <i class="fa fa-{{ $row->status == 1 ? 'toggle-on' : 'toggle-off' }}"
                                                         style="font-size:10px;"></i>
                                                 </button>
-                                                @if ($row->status == 1)
-                                                    <a href="{{ route($url_group.'.user.credit-history', $row->id) }}" 
-                                                        class="btn m-0 p-0 px-1 btn-primary"
-                                                        target="_blank" rel="noopener noreferrer">
-                                                        <i class="fa fa-list"
-                                                            style="font-size:10px;"></i>
-                                                    </a>
-                                                @endif
                                             </td>
                                         </tr>
 
@@ -121,7 +121,7 @@
                                                             </button>
 
                                                             <a title="Make Inactive" class="btn btn-danger ml-2"
-                                                                href="{{ route($url_group.'.user.status.change',$row->id) }}">
+                                                                href="{{ route($url_group.'.storage.status.change',$row->id) }}">
                                                                 <i class="fa fa-check"></i> Yes
                                                             </a>
                                                         </div>

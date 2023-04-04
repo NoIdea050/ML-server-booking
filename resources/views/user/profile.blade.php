@@ -179,7 +179,7 @@
                         <div class="mt-4">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon5">Confirm Password<span
+                                    <span class="input-group-text" id="basic-addon5">Confirn Password<span
                                             class="text-danger">*</span></span>
                                 </div>
 

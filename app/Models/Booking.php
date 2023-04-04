@@ -13,4 +13,9 @@ class Booking extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
+
+    public function storage_info()
+    {
+        return $this->hasOne(Storage::class, 'id', 'storage_id');
+    }
 }

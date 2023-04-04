@@ -22,7 +22,7 @@ class CreateSettingsTable extends Migration
             $table->string('monthly_credit')->default(0);
             $table->double('cpu_cost_per_hour', 16,2)->default(1);
             $table->double('gpu_cost_per_hour', 16,2)->default(1.5);
-            $table->string('status')->nullable()->default(1);
+            $table->string('status')->nullable()->default(1); 
             $table->timestamps();
         });
     }

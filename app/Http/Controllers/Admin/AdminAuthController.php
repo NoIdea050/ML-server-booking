@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\CreditHistory;
 class AdminAuthController extends Controller
 {
     public function admin_login()
@@ -35,7 +36,9 @@ class AdminAuthController extends Controller
         $rejected = Booking::where('status','2')->count();
          //get total number of approved bookings for current month
         $current_month = Booking::where('status','1')->whereDate('created_at',date('Y-m-d'))->count();
-        return view('admin.dashboard', compact('user','booking','pending','approved','rejected','current_month'));
+
+        $requested_credits = CreditHistory::where('status',0)->with('user_info')->latest()->get();
+        return view('admin.dashboard', compact('user','booking','pending','approved','rejected','current_month', 'requested_credits'));
     }
     public function admin_login_check(Request $request)
     {

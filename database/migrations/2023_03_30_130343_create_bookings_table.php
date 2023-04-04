@@ -19,7 +19,8 @@ class CreateBookingsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->dateTime('start_date_and_time', $precision = 0);
             $table->dateTime('end_date_and_time', $precision = 0);
-            $table->string('type');
+            $table->bigInteger('storage_id')->unsigned()->index()->nullable();
+            $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
             $table->text('note')->nullable();
             $table->decimal('credit', $precision = 8, $scale = 2)->nullable();
             $table->decimal('credit_cost', $precision = 8, $scale = 2)->default(0);
