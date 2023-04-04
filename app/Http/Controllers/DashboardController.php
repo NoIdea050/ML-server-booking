@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingMail;
 use App\Mail\CreditMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
@@ -342,7 +343,7 @@ class DashboardController extends Controller
                 'subject' => 'Credit Request',
                 'title' => 'Request For Extra Credit',
                 'credit_update' => 0,
-                'message_to_user' => "We'll let you know when your credit has been deposit or reject.",
+                'message_to_user' => "We'll let you know when your credit has been deposited or rejected.",
                 'name' => Auth::user()->name,
                 'email' => Auth::user()->email,
                 'credit_data' => Credit::where('user_id', Auth::user()->id)->first(),
@@ -385,21 +386,22 @@ class DashboardController extends Controller
 
     public function bookingsJson()
     {
-        $bookings = Booking::with('user')->select('user_id', 'type', DB::raw('count(*) as total'))->groupBy('user_id', 'type')->get();
-    
-        $data = [];
-    
+        $bookings = Booking::with('user')->get()->sortDesc();
+        $bookingData = [];
         foreach ($bookings as $booking) {
-            $user = $booking->user;
-            $data[] = [
-                'user_id' => $user->id,
-                'username' => $user->name,
-                'type' => $booking->type,
-                'total' => $booking->total,
+            $bookingData[] = [
+                'id' => $booking->id,
+                'username' => $booking->user->name,
+                'start_date_and_time' => $booking->start_date_and_time,
+                'end_date_and_time' => $booking->end_date_and_time,
+                'credit' => $booking->credit,
+                'credit_cost' => $booking->credit_cost,
+                'status' => $booking->status,
+                'created_at' => $booking->created_at,
+                'updated_at' => $booking->updated_at
             ];
-        } 
-
-        return response()->json($data);
+        }
+        return response()->json(['data' => $bookingData]);
         
     }
 }
