@@ -26,7 +26,7 @@
                                         <i class="fa fa-arrow-left refresh-icon" style="font-size:16px;"></i></a>
                                 </div>
                                 <div class="col-10 col-sm-10 col-md-8 title-wrapper">
-                                    <h3 class="text-center title">Storage List</h3>
+                                    <h3 class="text-center title">Resources List</h3>
                                 </div>
                                 <div class="col-1 col-sm-1 col-md-1 refresh-btn-wrapper">
                                     <a href="{{ route($url_group.'.storage.create') }}"
@@ -51,7 +51,7 @@
                                                         </div>
                                                         <input type="text"
                                                             class="form-control {{($errors->first('title') ? "border border-danger" : "")}}"
-                                                            name="title" value="{{ $data->title }}" placeholder="Enter Storage Title(Ex: CPU/GPU)">
+                                                            name="title" value="{{ $data->title }}" placeholder="Enter Resource Title(Ex: CPU1/GPU1)">
                                                     </div>
                                                 </div>
                                             </div>

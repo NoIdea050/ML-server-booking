@@ -34,7 +34,7 @@
                             <div class="row page-title-wrapper">
                                 <div class="col-sm-12 col-md-2"></div>
                                 <div class="col-10 col-sm-10 col-md-8 title-wrapper">
-                                    <h3 class="text-center title">Storage List</h3>
+                                    <h3 class="text-center title">Resources List</h3>
                                 </div>
                                 <div class="col-1 col-sm-1 col-md-1 refresh-btn-wrapper">
                                     <a href="{{ route($url_group.'.storage.create') }}"

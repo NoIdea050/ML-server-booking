@@ -57,7 +57,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputState" class="form-label">Storage: </label>
+                                    <label for="inputState" class="form-label">Resource: </label>
                                     <select id="inputState" class="form-select select-memory" name="storage">
                                         <option value="" {{ old('storage') == '' ? 'selected' : '' }}>Select One</option>
                                         @foreach ($storages as $storage)
@@ -80,7 +80,7 @@
                                 <div class="col-12">
                                     <label for="exampleFormControlTextarea1" class="form-label">Booking Cost</label>
                                     <input class="form-control booking_cost" name="credit_cost"
-                                        placeholder="Pick up stat & end date time first." readonly>
+                                        placeholder="Select start & end date and time first." readonly>
                                 </div>
                                 <div class="col-12">
                                     <label for="exampleFormControlTextarea1" class="form-label">Notes</label>

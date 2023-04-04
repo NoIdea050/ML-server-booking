@@ -121,7 +121,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-6">
+                                        {{-- <div class="col-sm-12 col-md-6">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -134,9 +134,9 @@
                                                         placeholder="Enter cpu cost per hour">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="col-sm-12 col-md-6">
+                                        {{-- <div class="col-sm-12 col-md-6">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -149,7 +149,7 @@
                                                         placeholder="Enter gpu cost per hour">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                     </div>
 
