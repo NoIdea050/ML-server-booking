@@ -107,7 +107,7 @@ $url_group = 'admin';
                 </a>
                 <ul class="collapse submenu list-unstyled" id="storage" data-parent="#accordionExample">
                     <li>
-                        <a href="{{route($url_group.'.storage.index')}}"> Resources List</a>
+                        <a href="{{route($url_group.'.storage.index')}}">Resources List</a>
                     </li>
                 </ul>
             </li>
