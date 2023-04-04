@@ -1,6 +1,6 @@
 APP_NAME=ML-Server-Booking
 APP_ENV=local
-APP_KEY=base64:HHEvBpUmeuJOLtP7ArV2qdoH4Ggo+9utKy4SnegWXUQ=
+APP_KEY=base64:NduMjrRVaLLKOG58uDGdtrU4v4XnbD8dZyvqmqNLSIg=
 APP_DEBUG=true
 APP_URL=http://localhost
 
