@@ -47,7 +47,6 @@ class User extends Authenticatable
 
     public function bookings()
     {
-        //return $this->hasMany(Booking::Class,'user_id');
         return $this->hasMany('App\Models\Booking');
     }
     public function user_more_info()

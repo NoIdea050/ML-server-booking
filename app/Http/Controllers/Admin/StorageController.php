@@ -44,7 +44,6 @@ class StorageController extends Controller
             'type' => 'required|string|max:255',
             'cost_per_hour' => 'required|numeric|min:0|not_in:0',
         ]);
-        // return $request->all();
 
         $data = New Storage();
         $data->title = $request->title;
@@ -107,7 +106,6 @@ class StorageController extends Controller
             'type' => 'required|string|max:255',
             'cost_per_hour' => 'required|numeric|min:0|not_in:0',
         ]);
-        // return $request->all();
 
         $data = Storage::find($id);
         $data->title = $request->title;
@@ -143,11 +141,11 @@ class StorageController extends Controller
         if ($data->status == 1) {
             $data->status = 0;
             $data->save();
-            return redirect()->back()->with('success', 'Data Inactived successfully');
+            return redirect()->back()->with('success', 'Enabled successfully');
         } else {
             $data->status = 1;
             $data->save();
-            return redirect()->back()->with('success', 'Data Actived successfully');
+            return redirect()->back()->with('success', 'Disabled successfully');
         }
 
         return redirect()->back()->with('error', 'Something Went Wrong, Try Again.');

@@ -235,7 +235,7 @@
 @section('footer-links')
 <script>
 $(document).ready(function() {
-    //date pecking in checking seats
+    //date picking
     $(".booking_start_date").change(function() {
         var booking_start_date = $(this).val();
         $('.booking_end_date').val('');

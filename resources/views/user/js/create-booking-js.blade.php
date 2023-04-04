@@ -11,7 +11,6 @@
         
         $('.dropdown-toggle').dropdown();
 
-        // $('.booking_start_date, .booking_end_date, .select-memory').change(function(){
         $("body").on('change', '.booking_start_date, .booking_end_date, .select-memory', function() {
             let booking_start_date = new Date(Date.parse($('.booking_start_date').val()));
             let booking_end_date = new Date(Date.parse($('.booking_end_date').val()));

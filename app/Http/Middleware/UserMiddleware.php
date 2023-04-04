@@ -26,6 +26,5 @@ class UserMiddleware
                             ->with('error', 'Account is not active yet.');
             return redirect()->route('login');
         }
-        // return $next($request);
     }
 }

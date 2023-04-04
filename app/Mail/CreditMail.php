@@ -28,7 +28,6 @@ class CreditMail extends Mailable
      */
     public function build()
     {
-        // return $this->view('view.name');
         return $this->subject($this->email_data['subject'])
                     ->view('mail.credit', ['email_data' => $this->email_data]);
     }

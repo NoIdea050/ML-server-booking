@@ -28,11 +28,6 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        // $this->credit_deposit(); //monthly auto credit deposite(currently: stop)
-        // $datas = [
-        //     'CPU' => Setting::first()->cpu_cost_per_hour,
-        //     'GPU' => Setting::first()->gpu_cost_per_hour 
-        // ];
         $storages = Storage::where('status', 1)->orderBy('type')->get();
         return view('user.dashboard',[
             'storages' => $storages,
@@ -105,15 +100,9 @@ class DashboardController extends Controller
                 return redirect()->back()->withInput($request->all())->with('error', 'You have to book for minimum one hour');
             }
 
-            // Get user credit
-
             $user_credit = Credit::Where('user_id',Auth::user()->id)->first();
             $storages = Storage::find($request->storage);
-            // if($request->type == 'CPU'){
-            //     $cost = Setting::first()->cpu_cost_per_hour;
-            // }else{
-            //     $cost = Setting::first()->cpu_cost_per_hour;
-            // }
+
             $cost = $storages->cost_per_hour;
             $cost_will_be = number_format((($cost/60)*$difference_in_minutes), 2);
             // Check if user has enough credit to return
@@ -212,7 +201,6 @@ class DashboardController extends Controller
     {
         $picking_date = $request->picking_date;
 
-        // return $picking_date;
         //Get all bookings for the date
         $booking_datas = Booking::select('id', 'start_date_and_time', 'end_date_and_time', 'status', 'storage_id')
                             ->whereDate('start_date_and_time', '<=', $picking_date)
@@ -392,6 +380,26 @@ class DashboardController extends Controller
         }
         return redirect()
                 ->back()
-                ->with('error', 'You can not deleted the request.');
+                ->with('error', 'You can not delete the request.');
+    }
+
+    public function bookingsJson()
+    {
+        $bookings = Booking::with('user')->select('user_id', 'type', DB::raw('count(*) as total'))->groupBy('user_id', 'type')->get();
+    
+        $data = [];
+    
+        foreach ($bookings as $booking) {
+            $user = $booking->user;
+            $data[] = [
+                'user_id' => $user->id,
+                'username' => $user->name,
+                'type' => $booking->type,
+                'total' => $booking->total,
+            ];
+        } 
+
+        return response()->json($data);
+        
     }
 }

@@ -51,7 +51,6 @@ class CreditHistoryController extends Controller
             'date_and_time' => 'required',
             'credit' => 'required|numeric|min:0|not_in:0',
         ]);
-        // return $request->all();
 
         DB::beginTransaction(); //transaction start
 
@@ -68,7 +67,6 @@ class CreditHistoryController extends Controller
         $credit_data->last_credit_added_date = $request->date_and_time;
         $credit_data->save();
 
-        // dd(CreditHistory::find($credit_history->id));
 
         DB::commit(); //transaction end
 
@@ -79,7 +77,7 @@ class CreditHistoryController extends Controller
             // Array of data to be used in the email view
             $email_data = [
                 'subject' => 'Extra Credit',
-                'title' => 'Extra Credit Deposit',
+                'title' => 'Extra Credit Added',
                 'credit_update' => 0,
                 'message_to_user' => "You got extra ".$request->credit." credit(s). Check your account.",
                 'name' => $user->name,
@@ -140,7 +138,6 @@ class CreditHistoryController extends Controller
             'date_and_time' => 'required',
             'credit' => 'required|numeric|min:0|not_in:0',
         ]);
-        // return $request->all();
 
         DB::beginTransaction(); //transaction start
 
@@ -150,7 +147,6 @@ class CreditHistoryController extends Controller
 
         $old_credit = $credit_history->credit;
 
-        // return $credit_history->credit - $request->credit;
         if (
                 ($request->credit < $credit_history->credit) && 
                 ($credit_data->total_credit_left < ($credit_history->credit - $request->credit))
@@ -174,9 +170,9 @@ class CreditHistoryController extends Controller
         // Array of data to be used in the email view
         $email_data = [
             'subject' => 'Credit Update',
-            'title' => 'Credit Deposit Update',
+            'title' => 'Credit Update',
             'credit_update' => 1,
-            'message_to_user' => "Given old credit has been updated to ".$request->credit." credit(s)(old:".$old_credit."). Check your account.",
+            'message_to_user' => "Old credit has been updated to ".$request->credit." credit(s)(old:".$old_credit."). Check your account.",
             'name' => $user->name,
             'email' => $user->email,
             'credit_data' => Credit::where('user_id', $user->id)->first(),
@@ -246,7 +242,7 @@ class CreditHistoryController extends Controller
             'subject' => 'Remove Credit',
             'title' => 'Given Extra Credit[Removed]',
             'credit_update' => 2, //2->deleted
-            'message_to_user' => "Sorry for inconvenience. That was a mistake",
+            'message_to_user' => "Sorry for any inconvenience. That was a mistake",
             'name' => $user->name,
             'email' => $user->email,
             'credit_data' => Credit::where('user_id', $user->id)->first(),
@@ -333,7 +329,7 @@ class CreditHistoryController extends Controller
                 'subject' => 'Credit Request[Accepted]',
                 'title' => 'Request For Extra Credit[Accepted]',
                 'credit_update' => 0,
-                'message_to_user' => "Requested extra credit has been deposited to your account.",
+                'message_to_user' => "Requested extra credit has been added to your account.",
                 'name' => $user->name,
                 'email' => $user->email,
                 'credit_data' => Credit::where('user_id', $user->id)->first(),
