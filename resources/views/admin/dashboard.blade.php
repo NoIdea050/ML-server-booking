@@ -209,7 +209,7 @@
                         <div class="w-content">
                             <div class="ass">
                                 <h6>{{$booking}}</h6>
-                                <p>Total Booking</p>
+                                <p>Total Bookings</p>
                             </div>
                             <div class="w-icon">
                                 <i class="fa fa-users" aria-hidden="true"></i>
@@ -218,7 +218,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 layout-spacing">
+            {{-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 layout-spacing">
                 <div class="widget widget-card-four css-selector pt-3 pl-2 pr-3">
                     <div class="widget-content">
                         <div class="w-content">
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 layout-spacing">
                 <div class="widget widget-card-four css-selector pt-3 pl-2 pr-3">
                     <div class="widget-content">
@@ -291,7 +291,7 @@
                                         <th>SL.</th>
                                         <th>Info</th>
                                         <th>Message</th>
-                                        <th>Amout(Credit)</th>
+                                        <th>Amount(Credit)</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
