@@ -109,8 +109,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon5">Monthly
-                                                            Credit</span>
+                                                        <span class="input-group-text" id="basic-addon5">Set Credit</span>
                                                     </div>
                                                     <input type="text"
                                                         class="form-control {{($errors->first('monthly_credit') ? "border border-danger" : "")}}"

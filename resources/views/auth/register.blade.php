@@ -97,7 +97,7 @@
                         </div>
 
                         <button class="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
-                            type="submit">Login</button>
+                            type="submit">Register</button>
                     </form>
                 </div>
 
