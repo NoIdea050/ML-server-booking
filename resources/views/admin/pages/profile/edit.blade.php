@@ -89,7 +89,7 @@ $url_group = 'admin';
                                     </small>
                                     @enderror
                                 </div>
-                                <div class="mb-4">
+                                {{-- <div class="mb-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon5">phone<span
@@ -103,7 +103,7 @@ $url_group = 'admin';
                                         <strong>{{ $message }}</strong>
                                     </small>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div>

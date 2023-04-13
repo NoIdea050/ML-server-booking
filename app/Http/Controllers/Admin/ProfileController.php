@@ -82,8 +82,8 @@ class ProfileController extends Controller
             'avatar' => 'nullable|file|image',
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('admins', 'email')->ignore($id)],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
+            // 'address' => ['required', 'string', 'max:255'],
+            // 'phone' => ['required','string', 'max:255'],
 
         ]);
 
@@ -111,8 +111,8 @@ class ProfileController extends Controller
         $admin->avatar = $avatar;
         $admin->name = $request->name;
         $admin->email = $request->email;
-        $admin->address = $request->address;
-        $admin->phone = $request->phone;
+        // $admin->address = $request->address;
+        // $admin->phone = $request->phone;
         $admin->save();
         if ($admin) {
             return redirect()->back()->with('success', 'Updated Successfully');
